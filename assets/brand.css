@@ -45,17 +45,22 @@
 }
 
 /* ---------- 屏幕够宽时，logo 和导航一起再往左移 ---------- */
-/* header 是居中的，所以「往左移」= logo 负边距加大 + 导航容器加宽（导航右对齐，
-   容器变宽它就整体左移）。两者移动量一致，间距比例不变。 */
+/* header 是居中的，所以「往左移」= logo 负边距加大 + 导航容器加宽
+   （导航右对齐，容器变宽它就整体左移）。导航各项间距比例不变。 */
 @media screen and (min-width: 1360px) and (max-width: 1480px) {
   .hd-logo { margin-left: -80px !important; }
   .menu { width: 960px !important; }
-  .hd-txt { margin-left: 56px !important; }   /* 补回导航左移的 40px，标语别压到斜边上 */
+  .hd-txt { margin-left: 56px !important; }
 }
-@media screen and (min-width: 1700px) {
-  .hd-logo { margin-left: -100px !important; }
-  .menu { width: 1180px !important; }
-  .hd-txt { margin-left: 116px !important; }   /* 补回导航左移的 60px */
+
+/* 屏幕 ≥1680px 时左边余量足够，把导航推到正好卡在斜边与导航行的拐角上。
+   拐角在 header 左边起约 215px 处；导航第一项高亮块 skewX(-30deg)，
+   上沿右移、下沿左移各约 18.5px，所以导航元素左边界取 196px 时
+   它的上沿正好落在拐角。 */
+@media screen and (min-width: 1680px) {
+  .hd-logo { margin-left: -130px !important; }
+  .menu { width: 1204px !important; }
+  .hd-txt { margin-left: 72px !important; }
 }
 
 /* ---------- 页脚 logo（深色底 #1b1c21，横版白色反白，带公司全名） ---------- */
