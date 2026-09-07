@@ -8,18 +8,28 @@
    ========================================================================== */
 
 /* ---------- 页眉 logo（竖版：图标一行，公司全名一行） ---------- */
-/* 原站这个位子是 124×108 的近方形，放不下 14 个字的全名，
-   所以把 logo 位加宽到 280px，导航相应收窄让位。 */
 .hd-logo {
-  width: 280px !important;
+  /* 页眉黑底是个斜切三角形，越往下越窄（从左边算起约 250px→218px），
+     14 个字的全名塞不进去。但斜切线以下那一整行都是黑的，
+     所以把 logo 下移，让公司名落到那一行，宽度就不再受斜边限制。
+     左移 40px 是为了在不碰到导航（从 header 左边起 280px 处开始）的前提下把字放大。 */
+  width: 320px !important;
+  margin-left: -40px !important;
+  margin-top: 32px !important;
   max-height: none !important;
-  margin-top: 5px !important;
   overflow: visible !important;
+  position: relative;
+  z-index: 3;
 }
 .hd-logo img {
   width: 100% !important;
   height: auto !important;
   display: block;
+}
+
+/* 窄屏（<1280）时 header 左边没有余量了，收回负边距并缩窄，避免 logo 被裁掉 */
+@media screen and (max-width: 1279px) {
+  .hd-logo { width: 280px !important; margin-left: 0 !important; }
 }
 
 /* ---------- 导航让位 ---------- */
