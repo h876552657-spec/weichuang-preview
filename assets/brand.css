@@ -9,12 +9,13 @@
 
 /* ---------- 页眉 logo（竖版：图标一行，公司全名一行） ---------- */
 .hd-logo {
-  /* 页眉黑底是斜切三角形：从 header 左边算起，可用宽度上面约 265px、
-     到 band y=90 收窄到约 223px。整块往左移 40px 换取余量，
-     并尽量往上放，让公司全名落在三角形较宽的那一段里。 */
-  width: 255px !important;
+  /* 页眉左边这块深色区域是个不规则多边形：上面被斜切边限制（从 header 左边
+     算起约 265px 宽），斜切线以下整行都是深色，右边界变成导航第一项（280px）。
+     整块 logo 左移 40px 并撑满这个区域：图标放在上半部斜边够宽的地方，
+     公司全名放在斜切线以下、导航左侧的空白里。 */
+  width: 320px !important;
   margin-left: -40px !important;
-  margin-top: 2px !important;
+  margin-top: 8px !important;
   max-height: none !important;
   overflow: visible !important;
   position: relative;
