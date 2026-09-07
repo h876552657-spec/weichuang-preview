@@ -9,11 +9,10 @@
 
 /* ---------- 页眉 logo（竖版：图标一行，公司全名一行） ---------- */
 .hd-logo {
-  /* 页眉左边这块深色区域是个不规则多边形：上面被斜切边限制（从 header 左边
-     算起约 265px 宽），斜切线以下整行都是深色，右边界变成导航第一项（280px）。
-     整块 logo 左移 40px 并撑满这个区域：图标放在上半部斜边够宽的地方，
-     公司全名放在斜切线以下、导航左侧的空白里。 */
-  width: 320px !important;
+  /* 页眉左边这块深色区域是不规则多边形：上面被斜切边限制，斜切线以下整行都是深色，
+     右边界是导航第一项。注意导航第一项的高亮块带 skewX(-30deg)，
+     它的下沿会往左戳出约 18px，所以公司名要比导航左边界再往左让出一段。 */
+  width: 297px !important;
   margin-left: -40px !important;
   margin-top: 8px !important;
   max-height: none !important;
@@ -27,9 +26,9 @@
   display: block;
 }
 
-/* 窄屏（<1280）时 header 左边没有余量了，收回负边距并缩窄，避免 logo 被裁掉 */
+/* 窄屏（<1280）时 header 左边没有余量，收回负边距并缩窄，避免 logo 被裁掉 */
 @media screen and (max-width: 1279px) {
-  .hd-logo { width: 280px !important; margin-left: 0 !important; }
+  .hd-logo { width: 270px !important; margin-left: 0 !important; }
 }
 
 /* ---------- 导航让位 ---------- */
@@ -43,6 +42,20 @@
   .menu li { font-size: 15px !important; }
   .menu li a { padding: 0 9px !important; }
   .hd-txt { margin-left: 16px !important; }
+}
+
+/* ---------- 屏幕够宽时，logo 和导航一起再往左移 ---------- */
+/* header 是居中的，所以「往左移」= logo 负边距加大 + 导航容器加宽（导航右对齐，
+   容器变宽它就整体左移）。两者移动量一致，间距比例不变。 */
+@media screen and (min-width: 1360px) and (max-width: 1480px) {
+  .hd-logo { margin-left: -80px !important; }
+  .menu { width: 960px !important; }
+  .hd-txt { margin-left: 56px !important; }   /* 补回导航左移的 40px，标语别压到斜边上 */
+}
+@media screen and (min-width: 1700px) {
+  .hd-logo { margin-left: -100px !important; }
+  .menu { width: 1180px !important; }
+  .hd-txt { margin-left: 116px !important; }   /* 补回导航左移的 60px */
 }
 
 /* ---------- 页脚 logo（深色底 #1b1c21，横版白色反白，带公司全名） ---------- */
