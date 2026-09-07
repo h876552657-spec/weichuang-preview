@@ -704,7 +704,7 @@ a[data-stub] {
     .about dl dd:after{max-width:100% !important;right:0 !important;}
   }
 
-  /* 手机（<=768px）：完整降级，分栏改单列。433 条 */
+  /* 手机（<=768px）：完整降级，分栏改单列。435 条 */
   @media screen and (max-width: 768px) {
     .header{max-width:100% !important;box-sizing:border-box !important;width:100% !important;}
     .hd-logo{float:none !important;width:100% !important;margin-left:0 !important;margin-right:0 !important;}
@@ -825,6 +825,7 @@ a[data-stub] {
     .p102-info-fdh-1-nav-one li a{box-sizing:border-box !important;}
     .p102-fdh-3 li{float:none !important;width:100% !important;margin-left:0 !important;margin-right:0 !important;}
     .p102-fdh-3 li:after{max-width:100% !important;display:none !important;}
+    .p102-fdh-3 li.sidenavcur:before, .p102-fdh-3 li:hover:before{display:none !important;}
     .p102-fdh-3 li.sidenavcur a:before, .p102-fdh-3 li:hover a:before{max-width:100% !important;display:none !important;}
     .p102-fdh-3 li.sidenavcur a:after, .p102-fdh-3 li:hover a:after{max-width:100% !important;display:none !important;}
     .k12-gl-gslb-3nf1-1-01-left dl{float:none !important;width:100% !important;margin-left:0 !important;margin-right:0 !important;}
@@ -923,10 +924,11 @@ a[data-stub] {
     .tit02 p{line-height:1.4 !important;}
     .guide{max-width:100% !important;box-sizing:border-box !important;width:100% !important;}
     .guide dl{height:auto !important;min-height:0 !important;}
+    .guide dl::after{display:none !important;}
     .guide dl dt{float:none !important;width:100% !important;margin-left:0 !important;margin-right:0 !important;}
     .guide dl dt::before{max-width:100% !important;height:auto !important;min-height:0 !important;display:none !important;left:0 !important;}
     .guide dl dd{float:none !important;width:100% !important;margin-left:0 !important;margin-right:0 !important;}
-    .guide dl dd p{line-height:1.75 !important;padding-left:14px !important;background-position:left center !important;background-size:16px auto !important;box-sizing:border-box !important;}
+    .guide dl dd p{line-height:1.75 !important;padding-left:30px !important;background-position:left center !important;background-size:16px auto !important;box-sizing:border-box !important;}
     .guide .guide-desc2{line-height:1.4 !important;}
     .g-chara{height:auto !important;min-height:0 !important;overflow:visible !important;}
     .g-chara .tit02{height:auto !important;min-height:0 !important;}
@@ -1023,7 +1025,7 @@ a[data-stub] {
     .g-show{padding-bottom:28px !important;}
     .show-tit{max-width:100% !important;box-sizing:border-box !important;width:100% !important;}
     .show-tit a{max-width:100% !important;box-sizing:border-box !important;width:100% !important;float:none !important;margin-left:0 !important;margin-right:0 !important;}
-    .show-tit a::after{max-width:100% !important;}
+    .show-tit a::after{max-width:100% !important;display:none !important;}
     .show-tit a em{float:none !important;width:100% !important;margin-left:0 !important;margin-right:0 !important;}
     .show-tit a em img{max-width:100% !important;}
     .show{max-width:100% !important;box-sizing:border-box !important;width:100% !important;}
