@@ -1,6 +1,101 @@
-# 内部预览用，暂不希望被搜索引擎收录。
-# 正式上线前：把 build-deploy.py 里的 DISALLOW_ALL 改成 False，SITE_URL 换成自己的域名。
+# 东莞市伟创业精密制造有限公司
+# 允许搜索引擎与 AI 答案引擎抓取。
+
 User-agent: *
-Disallow: /
+Allow: /
+
+# ---- 逐个列出，避免只认自家 UA 段的爬虫读不到 ----
+# 字节 · 豆包
+User-agent: Bytespider
+Allow: /
+
+# 百度 · 含百度AI搜索
+User-agent: Baiduspider
+Allow: /
+
+# 搜狗 · 腾讯元宝
+User-agent: Sogou web spider
+Allow: /
+
+# 神马
+User-agent: YisouSpider
+Allow: /
+
+# 华为花瓣
+User-agent: PetalBot
+Allow: /
+
+# 360
+User-agent: 360Spider
+Allow: /
+
+# ChatGPT 搜索索引
+User-agent: OAI-SearchBot
+Allow: /
+
+# ChatGPT 实时取回
+User-agent: ChatGPT-User
+Allow: /
+
+# OpenAI
+User-agent: GPTBot
+Allow: /
+
+# Perplexity 索引
+User-agent: PerplexityBot
+Allow: /
+
+# Perplexity 实时取回
+User-agent: Perplexity-User
+Allow: /
+
+# Anthropic
+User-agent: ClaudeBot
+Allow: /
+
+# Claude 实时取回
+User-agent: Claude-User
+Allow: /
+
+# Claude 搜索索引
+User-agent: Claude-SearchBot
+Allow: /
+
+# Gemini
+User-agent: Google-Extended
+Allow: /
+
+# Google 搜索 / AI Overviews
+User-agent: Googlebot
+Allow: /
+
+# Bing / Copilot
+User-agent: bingbot
+Allow: /
+
+# Apple
+User-agent: Applebot
+Allow: /
+
+# Apple AI
+User-agent: Applebot-Extended
+Allow: /
+
+# Amazon
+User-agent: Amazonbot
+Allow: /
+
+# Meta AI
+User-agent: meta-externalagent
+Allow: /
+
+# Common Crawl
+User-agent: CCBot
+Allow: /
+
+# 这两个不是内容页，别浪费抓取配额
+User-agent: *
+Disallow: /404.html
+Disallow: /pages.html
 
 Sitemap: https://h876552657-spec.github.io/weichuang-preview/sitemap.xml

@@ -36,11 +36,39 @@
   nofollow、2551 个死链加 nofollow、JSON-LD 类型由 SoftwareApplication 改为 Product
   并修正 710 个 404 的 URL、删掉百度统计/CNZZ/百度推送/在线客服插件/手机端跳转脚本/
   友情链接/llms.txt 死链/模板变量残留
-- **新增** `sitemap.xml`（按实际页面生成），`robots.txt` 加了 Sitemap 指令
+- **新增** `sitemap.xml`（按实际页面生成）
 
 改动前后用 `seo-snapshot.py` 做过机器校验：title / 链接 / alt / description **零变化**。
 窄屏版式修复只改了 `assets/brand.css` 一个文件，299 个页面的 HTML 与上一版**逐字节一致**
 （仅缓存版本号 `?v=` 变化），正文一个字没动。
+
+## GEO（面向 AI 答案引擎）
+
+目标不是搜索结果里的一条蓝链，而是被豆包/Kimi/百度AI/ChatGPT 抽取、写进答案、署上来源。
+
+- **robots.txt 已全面放开**，并逐个列出 22 家爬虫（豆包 Bytespider、百度、神马、
+  OAI-SearchBot、PerplexityBot、ClaudeBot、Google-Extended…）—— 部分爬虫只读自家 UA 段
+- **新增 `llms.txt` / `llms-full.txt`**：一页说清「这个站是什么 + 有哪些内容」，
+  按产品/资讯/栏目分组，链接与描述全部来自各页面本身
+- **sitemap 升级**：lastmod 用文章真实发布日期（不再是构建时间戳），
+  按页面类型分 priority 与 changefreq，加了 image sitemap 扩展
+- **canonical + og 补回**，首页两个 URL（`/` 与 `/808bc58e7137.html`）统一指向站点根
+- **删掉负资产**：202 处伪造的「5星/1条评价」（Google 明令禁止的 spammy structured data）、
+  236 处非法的 `"price":"面议"`、SoftwareApplication 模板残留字段、8 处伪造 Review
+- **从现有 HTML 推导出的新标记**（零文字改动）：
+  131 个产品页的 4×6 规格表 → `Product.sku` / `material` / 1227 条 `additionalProperty`；
+  298 条面包屑 → `BreadcrumbList`；64 篇资讯 → `Article` + 真实发布日期 + `<time datetime>`；
+  40 个列表页 → `ItemList`；频道页 `Service` → `CollectionPage`；首页 → `WebSite` + 完整 `Organization`
+- **新增 4 个原创资料页**（站上唯一不受「与原站重复」拖累的内容）：
+  `cnc-faq.html` 常见问题（FAQPage）、`cnc-materials.html` 材料选型对照表、
+  `cnc-tolerance.html` 公差与工艺能力、`cnc-glossary.html` 术语表（30 条 DefinedTerm）
+
+全站 528 块 JSON-LD 校验：0 解析失败、0 缺 @context、0 非法 price、0 伪造评分、0 相对路径。
+原有 300 页的文字信号与改动前**完全一致**（`seo-snapshot.py` 机器校验）。
+
+作者字段的处理：原站把「作者：」写成了 `cnc加工厂家`、`铝合金车铣cnc加工厂家www.伟创业.com`
+这类关键词堆砌。只有 14 页解析出真人名（谢方平）才标 `Person`，其余 50 页归到 `Organization`
+—— 把关键词标成作者名会直接损害可信度。
 
 ## 还没做的
 
@@ -56,7 +84,10 @@
 
 - **正文是从原站逐字抓取的**，只换了品牌名。搜索引擎大概率判为复制内容，
   这一条不解决，前面所有技术优化都换不来排名
-- **`robots.txt` 现在是 `Disallow: /`**，上线时改 `build-deploy.py` 里的 `DISALLOW_ALL`
-- **canonical / og** 上线时按新域名补回（之前为避免指向原站已删除）
+- **企业实体数据缺失**：统一社会信用代码、成立日期、员工数、`sameAs` 外部主页链接全部没有，
+  AI 引擎无法交叉验证这家公司真实存在。清单见项目里的 `待补企业资料.md`
+- **核心事实全站自相矛盾**：年限 14/15/16、面积 5000~14000㎡、设备 100/120/130/180 台、
+  公司名「东莞市」而地址「深圳市」。**这一条不解决，前面所有结构化数据都换不来引用** ——
+  AI 引擎读到互相矛盾的来源会降低置信度并放弃引用
 - **地址**：目前是深圳太阳美的。伟创业注册在东莞，如有独立地址需替换
 - **ICP 备案号**：目前借用太阳美的。备案与域名、主体绑定，必须重新备案
