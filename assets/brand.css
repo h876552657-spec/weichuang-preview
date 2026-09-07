@@ -2,23 +2,37 @@
    伟创业品牌覆盖样式 (brand.css)
    东莞市伟创业精密制造有限公司 / DONGGUAN WEICHUANG PRECISION MANUFACTURING CO., LTD
 
-   页眉用竖版 logo（图标 + 伟创业），正好放进原站 124×108 的 logo 位，
-   所以不需要再改导航宽度，保持原版式。
-   页脚位是 262×64 的横条，用带全名的横版反白 logo。
+   页眉用竖版 logo：图标一行，公司全名一行。
+   页脚位是 262×64 的横条，用带全名的横版白色反白 logo。
    本文件在所有页面的 <head> 最后加载，覆盖远程样式表。
    ========================================================================== */
 
-/* ---------- 页眉 logo（竖版：图标在上，伟创业在下） ---------- */
+/* ---------- 页眉 logo（竖版：图标一行，公司全名一行） ---------- */
+/* 原站这个位子是 124×108 的近方形，放不下 14 个字的全名，
+   所以把 logo 位加宽到 280px，导航相应收窄让位。 */
 .hd-logo {
-  width: 124px;
-  max-height: 108px;
-  margin-top: 30px;
-  overflow: visible;
+  width: 280px !important;
+  max-height: none !important;
+  margin-top: 5px !important;
+  overflow: visible !important;
 }
 .hd-logo img {
-  width: 100%;
-  height: auto;
+  width: 100% !important;
+  height: auto !important;
   display: block;
+}
+
+/* ---------- 导航让位 ---------- */
+.menu { width: 1120px !important; }
+.menu ul { padding-left: 0 !important; }
+.menu li a { padding: 0 16px !important; }
+.hd-txt { margin-left: 24px !important; }
+
+@media screen and (max-width: 1480px) {
+  .menu { width: 920px !important; }
+  .menu li { font-size: 15px !important; }
+  .menu li a { padding: 0 9px !important; }
+  .hd-txt { margin-left: 16px !important; }
 }
 
 /* ---------- 页脚 logo（深色底 #1b1c21，横版白色反白，带公司全名） ---------- */
