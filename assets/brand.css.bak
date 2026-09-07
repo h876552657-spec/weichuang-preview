@@ -1,0 +1,82 @@
+/* ==========================================================================
+   伟创业品牌覆盖样式 (brand.css)
+   东莞市伟创业精密制造有限公司 / DONGGUAN WEICHUANG PRECISION MANUFACTURING CO., LTD
+
+   页眉用竖版 logo：图标一行，公司全名一行。
+   页脚位是 262×64 的横条，用带全名的横版白色反白 logo。
+   本文件在所有页面的 <head> 最后加载，覆盖远程样式表。
+   ========================================================================== */
+
+/* ---------- 页眉 logo（竖版：图标一行，公司全名一行） ---------- */
+.hd-logo {
+  /* 页眉左边这块深色区域是不规则多边形：上面被斜切边限制，斜切线以下整行都是深色，
+     右边界是导航第一项。注意导航第一项的高亮块带 skewX(-30deg)，
+     它的下沿会往左戳出约 18px，所以公司名要比导航左边界再往左让出一段。 */
+  width: 297px !important;
+  margin-left: -40px !important;
+  margin-top: 8px !important;
+  max-height: none !important;
+  overflow: visible !important;
+  position: relative;
+  z-index: 3;
+}
+.hd-logo img {
+  width: 100% !important;
+  height: auto !important;
+  display: block;
+}
+
+/* 窄屏（<1280）时 header 左边没有余量，收回负边距并缩窄，避免 logo 被裁掉 */
+@media screen and (max-width: 1279px) {
+  .hd-logo { width: 270px !important; margin-left: 0 !important; }
+}
+
+/* ---------- 导航让位 ---------- */
+.menu { width: 1120px !important; }
+.menu ul { padding-left: 0 !important; }
+.menu li a { padding: 0 16px !important; }
+.hd-txt { margin-left: 24px !important; }
+
+@media screen and (max-width: 1480px) {
+  .menu { width: 920px !important; }
+  .menu li { font-size: 15px !important; }
+  .menu li a { padding: 0 9px !important; }
+  .hd-txt { margin-left: 16px !important; }
+}
+
+/* ---------- 屏幕够宽时，logo 和导航一起再往左移 ---------- */
+/* header 是居中的，所以「往左移」= logo 负边距加大 + 导航容器加宽
+   （导航右对齐，容器变宽它就整体左移）。导航各项间距比例不变。 */
+@media screen and (min-width: 1360px) and (max-width: 1480px) {
+  .hd-logo { margin-left: -80px !important; }
+  .menu { width: 960px !important; }
+  .hd-txt { margin-left: 56px !important; }
+}
+
+/* 屏幕 ≥1680px 时左边余量足够，把导航推到正好卡在斜边与导航行的拐角上。
+   拐角在 header 左边起约 215px 处；导航第一项高亮块 skewX(-30deg)，
+   上沿右移、下沿左移各约 18.5px，所以导航元素左边界取 196px 时
+   它的上沿正好落在拐角。 */
+@media screen and (min-width: 1680px) {
+  .hd-logo { margin-left: -130px !important; }
+  .menu { width: 1204px !important; }
+  .hd-txt { margin-left: 72px !important; }
+}
+
+/* ---------- 页脚 logo（深色底 #1b1c21，横版白色反白，带公司全名） ---------- */
+.ft-beian img.footimg {
+  width: 240px !important;
+  height: auto !important;
+}
+
+/* ---------- 待补图占位图 ---------- */
+/* 占位图本身已画好灰底和说明文字，这里只保证不被拉伸变形 */
+img[data-placeholder] {
+  object-fit: cover;
+  background: #eceef1;
+}
+
+/* ---------- 原站有、本地没抓到的页面 ---------- */
+a[data-stub] {
+  cursor: not-allowed;
+}

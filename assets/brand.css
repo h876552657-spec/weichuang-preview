@@ -26,8 +26,8 @@
   display: block;
 }
 
-/* 窄屏（<1280）时 header 左边没有余量，收回负边距并缩窄，避免 logo 被裁掉 */
-@media screen and (max-width: 1279px) {
+/* 窄屏（<1360）时 header 居中后左边没有余量，收回负边距并缩窄，避免 logo 被视口裁掉 */
+@media screen and (max-width: 1359px) {
   .hd-logo { width: 270px !important; margin-left: 0 !important; }
 }
 
@@ -79,4 +79,262 @@ img[data-placeholder] {
 /* ---------- 原站有、本地没抓到的页面 ---------- */
 a[data-stub] {
   cursor: not-allowed;
+}
+
+
+/* ==========================================================================
+   响应式（新增）
+   原站是纯 PC 站：body{min-width:1200px}、版心 1200/1400/1520px 全是固定像素，
+   靠 uaredirect.js 跳转到独立手机站解决移动端。跳转脚本已删，这里补上真正的自适应。
+
+   vendor/ 下的 CSS 是抓来的，不改，全部在这里覆盖。
+   红线：收起内容只用改布局 / 缩尺寸 / transform 移出屏幕，
+        绝不用 display:none 藏正文文字（那是隐藏文本，判作弊）。
+   ========================================================================== */
+
+/* ---------- 平板及以下 (≤1199px) ---------- */
+@media screen and (max-width: 1199px) {
+  /* 头号障碍：解除 1200px 版心下限 */
+  html, body { min-width: 0 !important; overflow-x: hidden !important; }
+
+  /* 所有固定宽度版心改成自适应 */
+  .header, .content, .footer, .blk-main, .blk-max-main,
+  .search-con, .footers, .guide, .chara, .products, .case, .partner,
+  .proc, .news, .show, .show-bd, .link, .super, .super-nav ul, .pro,
+  .wrap, .about dl dd, .menu {
+    width: auto !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    box-sizing: border-box !important;
+  }
+  .header, .blk-main, .wrap { padding-left: 16px !important; padding-right: 16px !important; }
+
+  /* 原站大量写死的 section 高度，窄屏必溢出 */
+  .g-super, .g-cases, .g-products, .g-news, .g-show, .g-about, .g-process,
+  .super, .super-c, .super-c dl, .case-con, .case-con dt, .case-con dd,
+  .h-nr, .hd-nr, .show-c, .proc, .guide {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
+  /* 图片一律不超出容器 */
+  img { max-width: 100% !important; height: auto !important; }
+  table { max-width: 100% !important; }
+  /* 宽表格横向滚动，不撑破页面 */
+  .tableScrolling, .cap-table-wrap, .p14-prodcontent-1-desc {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* ---------- 手机 (≤768px) ---------- */
+@media screen and (max-width: 768px) {
+
+  /* ===== 页眉：logo 与导航纵向堆叠 ===== */
+  .twz { font-size: 12px !important; height: auto !important; line-height: 1.8 !important;
+         padding: 6px 12px !important; }
+  .twz .fr { float: none !important; display: block !important; }
+
+  .h-nr { background: #1b1c21 !important; padding: 10px 0 !important; }
+  .h-nr .header { display: flex !important; align-items: center !important;
+                  justify-content: space-between !important; }
+
+  .hd-logo {
+    width: 190px !important;
+    margin: 0 !important;
+    float: none !important;
+    flex: 0 0 auto !important;
+  }
+  .hd-logo img { width: 100% !important; height: auto !important; }
+
+  /* 标语和电话在手机上换行显示，不隐藏（都是正文，不能藏） */
+  .menu { float: none !important; padding: 0 !important; }
+  .hd-nr { height: auto !important; float: none !important; width: 100% !important;
+           order: 3 !important; padding: 8px 0 0 !important; }
+  .hd-txt { float: none !important; margin: 0 !important; font-size: 14px !important;
+            line-height: 1.6 !important; color: #cfd3da !important; }
+  .hd-txt b { font-size: 16px !important; display: block !important; color: #7ea6ff !important; }
+  .hd-tel { float: none !important; margin: 6px 0 0 !important; height: auto !important;
+            background-position: left 4px !important; }
+  .hd-tel b { font-size: 20px !important; }
+
+  /* ===== 导航 = 汉堡菜单 + 侧边抽屉 ===== */
+  /* 抽屉用 transform 移出屏幕，链接始终留在 DOM 里，爬虫抓得到 */
+  .menu > ul {
+    position: fixed !important;
+    top: 0 !important; left: 0 !important;
+    width: 78% !important; max-width: 320px !important;
+    height: 100% !important;
+    padding: 56px 0 24px !important;
+    margin: 0 !important;
+    background: #14161b !important;
+    box-shadow: 2px 0 18px rgba(0,0,0,.4);
+    transform: translateX(-100%) !important;
+    transition: transform .28s ease !important;
+    z-index: 9999 !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  /* 开启态的类直接打在 ul 上，不用 body 后代选择器——特异性更明确，
+     也不受其他样式表里同名选择器的干扰 */
+  .menu > ul.wcy-open { transform: translateX(0) !important; }
+
+  .menu > ul > li { float: none !important; display: block !important;
+                    width: 100% !important; text-align: left !important;
+                    font-size: 16px !important; }
+  .menu > ul > li a { height: auto !important; line-height: 1.5 !important;
+                      padding: 14px 22px !important; display: block !important;
+                      border-bottom: 1px solid #23262e !important; color: #e8eaee !important; }
+  .menu > ul > li::after { display: none !important; }   /* 斜切高亮块在抽屉里没意义 */
+  .menu > ul ul { position: static !important; display: block !important;
+                  background: #0e1014 !important; }
+  .menu > ul ul a { padding-left: 40px !important; font-size: 14px !important; }
+
+  /* 汉堡按钮与遮罩由 brand.js 注入 */
+  .wcy-burger {
+    display: block; width: 44px; height: 40px; flex: 0 0 auto;
+    background: none; border: 0; padding: 8px; cursor: pointer; z-index: 10000;
+  }
+  .wcy-burger i { display: block; height: 2px; background: #fff; margin: 6px 0;
+                  border-radius: 2px; transition: transform .25s, opacity .25s; }
+  body.wcy-nav-open .wcy-burger { position: fixed; top: 8px; right: 12px; }
+  body.wcy-nav-open .wcy-burger i:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+  body.wcy-nav-open .wcy-burger i:nth-child(2) { opacity: 0; }
+  body.wcy-nav-open .wcy-burger i:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+  .wcy-mask { position: fixed; inset: 0; background: rgba(0,0,0,.5);
+              opacity: 0; pointer-events: none; transition: opacity .28s; z-index: 9998; }
+  body.wcy-nav-open .wcy-mask { opacity: 1; pointer-events: auto; }
+  body.wcy-nav-open { overflow: hidden; }
+
+  /* ===== 右侧悬浮客服栏 → 底部固定条 ===== */
+  /* 这里藏的是图标和二维码，不是正文文字，用 display:none 是安全的 */
+  .client-2, .my-kefu, #my-kefu { display: none !important; }
+  .wcy-bottombar {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 9990;
+    display: flex; height: 52px; background: #1b1c21;
+    box-shadow: 0 -2px 12px rgba(0,0,0,.25);
+  }
+  .wcy-bottombar a {
+    flex: 1; display: flex; align-items: center; justify-content: center;
+    color: #fff; text-decoration: none; font-size: 15px; letter-spacing: .04em;
+  }
+  .wcy-bottombar a + a { border-left: 1px solid #2c303a; }
+  .wcy-bottombar a.pri { background: #C97407; }
+  body { padding-bottom: 52px !important; }   /* 给底部条让位 */
+
+  /* ===== 内容区：多列改单列 ===== */
+  .chara li, .pro-cp li, .proc li, .show-c li, .partner li,
+  .cert-card, .culture-item, .ind-card, .why-card, .case-con dl {
+    width: 100% !important; float: none !important; margin: 0 0 14px !important;
+  }
+  .super-c dt, .super-c dd { width: 100% !important; float: none !important;
+                             position: static !important; height: auto !important; }
+  .pro-nav, .p102-fdh-3 { width: 100% !important; float: none !important; }
+  .pro1, .pro2, .news1, .news2, .news3, .blk-sm { width: 100% !important; float: none !important; }
+
+  /* ===== 版式细节 ===== */
+  body { font-size: 15px !important; line-height: 1.75 !important; }
+  .tit01 h2, .tit02 h2, h2 { font-size: 22px !important; line-height: 1.4 !important; }
+  h3 { font-size: 18px !important; line-height: 1.5 !important; }
+  .banner, .ban, .ty-banner-1 { height: auto !important; }
+  .bantit1, .bantit2, .bantit3 { position: static !important; width: auto !important;
+                                 padding: 16px !important; }
+  .bantit1 h3, .bantit2 h3, .bantit3 h3 { font-size: 20px !important; line-height: 1.4 !important; }
+
+  /* 页脚 */
+  .ft-nav, .ft-con, .ft-beian, .ft-contact, .ft-code { width: auto !important;
+    float: none !important; height: auto !important; padding-left: 16px !important;
+    padding-right: 16px !important; }
+  .ft-beian img.footimg { width: 200px !important; }
+}
+
+/* ---------- 小屏手机 (≤380px) ---------- */
+@media screen and (max-width: 380px) {
+  .hd-logo { width: 160px !important; }
+  .wcy-bottombar a { font-size: 14px; }
+}
+
+/* ---------- 手机端补丁：轮播改堆叠 + 残余固定宽度 ---------- */
+@media screen and (max-width: 768px) {
+  /* 页眉允许换行，标语/电话掉到第二行 */
+  .h-nr .header { flex-wrap: wrap !important; }
+
+  /* SuperSlide (.tempWrap) 和 slick 在初始化时按像素算轨道宽度，
+     移动端会算出几千像素的轨道。这里把轮播降级成纵向堆叠列表：
+     所有幻灯片都直接可见，比只露一张对 SEO 更好。
+     .clone / .slick-cloned 是插件运行时复制出来的重复节点，
+     源码里没有，隐藏它们不涉及隐藏正文。 */
+  .tempWrap { width: 100% !important; overflow: visible !important; height: auto !important; }
+  .tempWrap > ul {
+    width: 100% !important; left: 0 !important; top: 0 !important;
+    position: static !important; height: auto !important;
+  }
+  .tempWrap > ul > li {
+    width: 100% !important; float: none !important; display: block !important;
+    height: auto !important; margin: 0 0 12px !important;
+  }
+  .tempWrap > ul > li.clone { display: none !important; }
+
+  .slick-list, .slick-track {
+    width: 100% !important; height: auto !important;
+    transform: none !important; left: 0 !important;
+  }
+  .slick-slide {
+    width: 100% !important; float: none !important; display: block !important;
+    height: auto !important; margin: 0 0 12px !important;
+  }
+  .slick-cloned { display: none !important; }
+  .slick-arrow, .super-prev, .super-next, .case-prev, .case-next { display: none !important; }
+
+  /* 轮播降级后，原来靠绝对定位叠在图上的文字改为正常流 */
+  .ban, .bantit1, .bantit2, .bantit3, .super-c dd, .case-con dd {
+    position: static !important; width: auto !important; height: auto !important;
+  }
+
+  /* 残余的固定宽度元素 */
+  .keywords, .sea, .search, .show-tit, .news1-con, .news2-c, .news3-c,
+  .pro-ad, .pro-img, .pro-ad-pic, .about, .about3, .strength, .content,
+  .culture-grid, .cert-grid, .ind-grid, .why-grid, .cap-table-wrap,
+  .p102-about-content, .p102-proShow-1-con, .rows, .adv, .p_range {
+    width: auto !important; max-width: 100% !important; float: none !important;
+    height: auto !important;
+  }
+  .keywords a, .sea a { display: inline-block !important; margin: 0 10px 6px 0 !important; }
+
+  /* 兜底：任何还在溢出的块级元素都不许超出视口 */
+  .blk-main *, .header *, .footers * { max-width: 100% !important; }
+}
+
+/* ---------- 手机端补丁 2 ---------- */
+@media screen and (max-width: 768px) {
+  /* 汉堡按钮固定在页眉右上角，不占布局行 */
+  .h-nr .header { position: relative !important; padding-right: 56px !important; }
+  .wcy-burger { position: absolute !important; top: 8px !important; right: 6px !important; }
+
+  /* 有些轮播的直接子元素是 div/dl 而不是 ul>li（如 .news1-con 下的 dl），
+     统一按堆叠处理 */
+  .tempWrap > *, .tempWrap dl, .tempWrap dt, .tempWrap dd, .tempWrap .news1-con {
+    width: 100% !important; max-width: 100% !important;
+    float: none !important; position: static !important; height: auto !important;
+  }
+  .tempWrap dl.clone { display: none !important; }
+  .tempWrap dt, .tempWrap dd { margin: 0 0 8px !important; }
+}
+
+/* ---------- 移动端控件在桌面端不显示 ---------- */
+/* 汉堡按钮、遮罩、底部条由 brand.js 注入，默认隐藏，只在手机断点出现。
+   隐藏的是交互控件不是正文，用 display:none 安全。 */
+.wcy-burger, .wcy-mask, .wcy-bottombar { display: none; }
+@media screen and (max-width: 768px) {
+  .wcy-burger { display: block; }
+  .wcy-mask   { display: block; }
+  .wcy-bottombar { display: flex; }
+}
+
+/* ---------- 修桌面端 1402–1519px 的溢出死区 ---------- */
+/* .super 写死 1520px，而原站收窄它的断点是 max-width:1401px，
+   所以 1402–1519px 之间它会超出视口被裁掉（1440px 笔记本正落在这个区间）。 */
+@media screen and (max-width: 1519px) {
+  .super { width: auto !important; max-width: 100% !important; }
 }

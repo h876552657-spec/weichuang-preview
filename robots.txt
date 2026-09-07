@@ -1,3 +1,6 @@
-# 内部预览用，不希望被搜索引擎收录
+# 内部预览用，暂不希望被搜索引擎收录。
+# 正式上线前：把 build-deploy.py 里的 DISALLOW_ALL 改成 False，SITE_URL 换成自己的域名。
 User-agent: *
 Disallow: /
+
+Sitemap: https://h876552657-spec.github.io/weichuang-preview/sitemap.xml
