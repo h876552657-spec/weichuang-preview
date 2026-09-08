@@ -1490,3 +1490,151 @@ img { height: auto; }
     white-space: nowrap !important;
   }
 }
+
+/* ==========================================================================
+   手机端：把桌面的横排图标条改成紧凑网格
+   ==========================================================================
+   生成层做的是机械降级 —— float:none; width:100%，于是桌面上一排 6 个的
+   图标条变成 6 条满宽长条，每条还沿用桌面高度（93~102px），
+   一屏只放得下两三个词，中间全是空白。图标本身是 34px 的小图，
+   却被放在 360px 宽的行里，左边还顶着屏幕边。
+
+   这几块的共同点是「一个小图标 + 一个四五字的短标签」，
+   本来就该排成 2~3 列的网格，而不是单列长条。 */
+@media screen and (max-width: 768px) {
+
+  /* ---- 首页：优势导航（6项）与行业导航（6项）---- */
+  .super-nav > ul,
+  .case-nav > ul {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 1px !important;
+    background: #e6e9ed !important;      /* 缝隙当分隔线用 */
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-top: 1px solid #e6e9ed !important;
+    border-bottom: 1px solid #e6e9ed !important;
+  }
+  .super-nav li,
+  .case-nav li,
+  .case-nav span {
+    display: block !important;
+    float: none !important;
+    width: auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 12px 4px !important;
+    background: #fff !important;
+    text-align: center !important;
+    font-size: 13px !important;
+    line-height: 1.4 !important;
+    box-sizing: border-box !important;
+    border: 0 !important;
+  }
+  .super-nav li a,
+  .case-nav li a,
+  .case-nav span a { display: block !important; line-height: 1.4 !important; }
+
+  /* 图标是「一张图裁出两态」的精灵图，尺寸不能放开，只把它从左浮动改成居中 */
+  .super-nav li em,
+  .case-nav li em,
+  .case-nav span em {
+    float: none !important;
+    margin: 0 auto 6px !important;
+    position: relative !important;
+    overflow: hidden !important;
+  }
+  .super-nav li em { width: 34px !important; height: 34px !important; }
+  .case-nav li em,
+  .case-nav span em { width: 30px !important; height: 28px !important; }
+  .super-nav li em img { width: 34px !important; max-width: none !important; }
+  .case-nav li em img,
+  .case-nav span em img { width: 30px !important; max-width: none !important; }
+
+  /* 原设计用 li::before / ::after 画竖分隔线和选中下划线，
+     网格自带缝隙，这两条会错位，收掉 */
+  .super-nav li::before,
+  .super-nav li::after { display: none !important; }
+
+  /* 这几个容器里都塞着 <div class="clear"> 清除浮动。
+     改成网格之后浮动已经没了，它却会占掉一个格位、撑出一道空行。 */
+  .super-nav > ul > .clear,
+  .case-nav > ul > .clear,
+  .p102-fdh-3 > ul > .clear,
+  .strength dd > ul > .clear { display: none !important; }
+
+  /* ---- 关于页侧栏导航（8项纯文字）---- */
+  .p102-fdh-3 > ul {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+    height: auto !important;
+    min-height: 0 !important;
+  }
+  .p102-fdh-3 > ul > li {
+    width: auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    float: none !important;
+    background: none !important;
+  }
+  .p102-fdh-3 > ul > li > a {
+    display: block !important;
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 10px 8px !important;
+    font-size: 13px !important;
+    line-height: 1.4 !important;
+    text-align: center !important;
+    background: #fff !important;
+    border: 1px solid #e3e6ea !important;
+    border-radius: 6px !important;
+  }
+
+  /* ---- 关于页「公司实力」的数字块（4格）---- */
+  .strength dd > ul {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+  }
+  .strength dd > ul > li {
+    width: auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    float: none !important;
+    padding: 12px 6px !important;
+    text-align: center !important;
+    background: #fff !important;
+    border: 1px solid #e3e6ea !important;
+    border-radius: 8px !important;
+    box-sizing: border-box !important;
+  }
+  /* 结构是 <b>数字</b><span>单位</span><i>说明</i>：数字和单位同一行，说明另起一行 */
+  .strength dd > ul > li b,
+  .strength dd > ul > li span {
+    display: inline !important;
+    float: none !important;
+    height: auto !important;
+    line-height: 1.2 !important;
+  }
+  .strength dd > ul > li b { font-size: 24px !important; color: #0b56d8 !important; }
+  .strength dd > ul > li span { font-size: 13px !important; color: #0b56d8 !important; }
+  .strength dd > ul > li i {
+    display: block !important;
+    float: none !important;
+    width: auto !important;
+    height: auto !important;
+    margin-top: 4px !important;
+    font-size: 12px !important;
+    line-height: 1.4 !important;
+    color: #666 !important;
+  }
+}
