@@ -1566,6 +1566,74 @@ img { height: auto; }
   .p102-fdh-3 > ul > .clear,
   .strength dd > ul > .clear { display: none !important; }
 
+  /* ---- 首页相册切换条（生产车间/检测设备/荣誉证书/企业风采）---- */
+  /* 桌面上是一条 840x64 的圆角横条，四个标签横排。手机上出了三个问题：
+     1. 容器背景 showtbg.jpg 是 5x64 的渐变条，靠 repeat-x 横向平铺。
+        容器变成 417px 高之后 repeat-x 只铺得出顶部那一行 64px，
+        配上容器的 border-radius:30px，看起来就像第一项上残留了一颗选中胶囊 ——
+        用户看到的「切换到别的项时生产车间还有残留」就是这个，不是 hover 没清掉。
+     2. 生成层把图标窗口 em 也放成了 width:100%，26px 的两态精灵图窗口被拉成满宽，
+        把标签挤到了下一行，于是每项占掉一百多像素。
+     3. a 满宽 + border-radius:30px，选中态成了一条横贯屏幕的大蓝条。
+     改成 2 列的图标+文字胶囊。 */
+  .show-tit {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+    width: auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 0 20px !important;
+    padding: 0 16px !important;
+    background: none !important;
+    border-radius: 0 !important;
+    box-sizing: border-box !important;
+  }
+  .show-tit a {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    float: none !important;
+    width: auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 10px 8px !important;
+    font-size: 14px !important;
+    line-height: 1.4 !important;
+    background: #fff !important;
+    border: 1px solid #e3e6ea !important;
+    border-radius: 8px !important;
+    box-sizing: border-box !important;
+  }
+  .show-tit a.cur {
+    background: #0b56d8 !important;
+    border-color: #0b56d8 !important;
+    color: #fff !important;
+  }
+  /* 原设计用 ::after 画竖分隔线，网格里会错位 */
+  .show-tit a::after { display: none !important; }
+  /* 图标窗口是 26x26 裁两态，尺寸不能放开 */
+  .show-tit a em {
+    flex: 0 0 26px !important;
+    width: 26px !important;
+    height: 26px !important;
+    max-width: 26px !important;
+    margin: 0 !important;
+    float: none !important;
+    position: relative !important;
+    overflow: hidden !important;
+  }
+  .show-tit a em img { width: 26px !important; max-width: none !important; }
+  .show-tit a h4 {
+    margin: 0 !important;
+    font-size: 14px !important;
+    line-height: 1.4 !important;
+    font-weight: normal !important;
+  }
+  .show-tit a.cur h4 { font-weight: bold !important; }
+
   /* ---- 关于页侧栏导航（8项纯文字）---- */
   .p102-fdh-3 > ul {
     display: grid !important;
