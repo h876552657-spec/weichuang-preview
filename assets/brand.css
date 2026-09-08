@@ -430,11 +430,87 @@ a[data-stub] {
        （如 .news1-c dt img{height:381px}） */
 img { height: auto; }
 
+/* ---------- 卡片网格：统一配图比例 ---------- */
+/* 原站的产品配图长宽比不统一 —— 有 1024x1024 的 1:1，也有 600x450 的 4:3。
+   卡片是 float 布局、不会自动等高，同排就会参差不齐，下一排被顶出一块空档
+   （产品列表同排高差 74px，相关产品侧栏 54px）。
+   给图片容器定死 4:3（站上多数图的比例），用 object-fit:contain 让不同比例的图
+   完整显示、两侧留白 —— 不裁切产品本身。
+   案例卡片 .p102-news-case-list 同理：配图有 600x338、600x450、800x600 三种比例，
+   还有几张是缺图的占位，同排卡片高差 71px。定死比例后连缺图也能占住位置。 */
+.leftnav-z1-list dt,
+.p14-product-2-list dl dt,
+.p102-news-case-list dt {
+  display: block;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: #fff;
+}
+.leftnav-z1-list dt a,
+.p14-product-2-list dl dt a,
+.p102-news-case-list dt a { display: block; height: 100%; }
+.leftnav-z1-list dt img,
+.p14-product-2-list dl dt img,
+.p102-news-case-list dt img {
+  width: 100%; height: 100%; object-fit: contain;
+}
+
+/* ---------- 推荐产品：卡片等高 ---------- */
+/* 「推荐产品」这一排的标题栏 .cx-xgcp-3pl-01-list h4 只写了 line-height:35px，
+   没有高度上限 —— 原设计假设标题都只有一行。实际有 20 字的长标题会折成两行，
+   那张卡片比同排其他卡片高 35px，灰色标题条参差不齐。
+
+   注意这一排是 SuperSlide 轮播（运行时会包一层 .tempWrap），
+   每张卡片的 float:left 和 width 都是 JS 写在内联样式里的，
+   所以不能改成 flex —— 会让 JS 算好的轨道宽度失效、卡片挤成一排。
+
+   改法：给标题条固定两行高度（2 x 35px），所有卡片高度一致。
+   一行的标题垂直居中，不留下半截空白；超过两行的收省略号（title 属性仍是全文）。 */
+.cx-xgcp-3pl-01-list h4 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6px;
+  box-sizing: border-box;
+}
+/* 定高在文件末尾（生成块之后）设置 —— 见「生成层的例外」一节。 */
+.cx-xgcp-3pl-01-list h4 a {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+/* 标题条从 35 变 70，卡片高 201 -> 236，加 20px 下边距刚好 256，
+   轨道原本死高 240 会把底部切掉 16px，同时又不能放成 auto
+   —— 放开就会露出 float 换行后被藏起来的那一排克隆卡片。 */
+.cx-xgcp-3pl-01-list .tempWrap > .p14-product-2-list { height: 256px; }
+/* 没有跑轮播的静态用法（无 .tempWrap）就让它按内容撑开，不裁切 */
+.cx-xgcp-3pl-01-list > .p14-product-2-list { height: auto; min-height: 240px; }
+
+/* ---------- 压在图片上的标题要有衬底 ---------- */
+/* .pro2 的卡片标题是 #666 灰字，绝对定位直接压在照片底部，没有任何衬底。
+   照片底部浅色时能看清，深色时（如金属件的灰底棚拍）就糊成一片。
+   加一层白色半透明衬底，任何照片上都读得清。 */
+.pro2 li h4 {
+  background: rgba(255, 255, 255, .9);
+}
+
+/* 产品详情图的翻页计数「1/3」是白字，绝对定位贴在图片右下角，原站没给它任何底色，
+   落在浅色图上就是白底白字，等于看不见（对比度实测 1.00）。
+   补一块深色小牌子；顺便把 line-height 从 16px 调到 26px —— 原来文字贴在 26px 盒子顶部。 */
+.p102-proShow-1-size {
+  background: rgba(0, 0, 0, .6);
+  border-radius: 3px;
+  line-height: 26px;
+  text-align: center;
+  text-indent: 3px;
+}
+
 /* @@GEN-MOBILE-START@@  以下由 gen-mobile-css.py 生成，勿手改 */
 /* 由 gen-mobile-css.py 从 vendor 样式表 + 201 个页面的页内 <style> + 内联宽度反推生成。
    1200px 及以上完全不受影响 —— 桌面版式一像素未动。 */
 
-  /* 平板/小笔记本（<=1199px）：只做防溢出与放出被裁正文，保留多栏布局。322 条 */
+  /* 平板/小笔记本（<=1199px）：只做防溢出与放出被裁正文，保留多栏布局。290 条 */
   @media screen and (max-width: 1199px) {
     .header{max-width:100% !important;box-sizing:border-box !important;}
     .hd-tel{box-sizing:border-box !important;}
@@ -442,7 +518,6 @@ img { height: auto; }
     .banner{max-height:none !important;overflow:visible !important;}
     .banner .slick-arrow{max-width:100% !important;}
     .slick-dots{max-width:100% !important;}
-    .search{height:auto !important;max-height:none !important;overflow:visible !important;}
     .search-con{max-width:100% !important;box-sizing:border-box !important;}
     .keywords{max-width:100% !important;box-sizing:border-box !important;}
     .keywords a{box-sizing:border-box !important;}
@@ -475,20 +550,16 @@ img { height: auto; }
     .p102-news-1-list dl{max-width:100% !important;box-sizing:border-box !important;}
     .p102-news-1-list dd h4:before{max-width:100% !important;left:0 !important;}
     .p102-news-1-list dd h4:after{max-width:100% !important;left:0 !important;}
-    .p102-news-1-list dd h4 a{height:auto !important;max-height:none !important;overflow:visible !important;}
     .p102-news-1-list dd h4 span{max-width:100% !important;}
-    .p102-news-1-list .p102-news-1-desc{height:auto !important;max-height:none !important;overflow:visible !important;}
     .p102-news-info dl{box-sizing:border-box !important;}
     .p102-news-info dt{max-width:268px !important;box-sizing:border-box !important;}
     .p102-news-info dd{max-width:100% !important;box-sizing:border-box !important;}
     .p102-news-info dd i{max-width:100% !important;right:0 !important;}
     .p102-news-info dd h4{box-sizing:border-box !important;}
     .p102-news-info dd h4 em{max-width:100% !important;}
-    .p102-news-info dd h4 a{height:auto !important;max-height:none !important;overflow:visible !important;}
     .p102-news-info ul:before{max-width:100% !important;}
     .p102-news-info ul li{max-width:100% !important;box-sizing:border-box !important;}
     .p102-news-info ul h4{box-sizing:border-box !important;}
-    .p102-news-info ul h4 a{height:auto !important;max-height:none !important;overflow:visible !important;}
     .p102-news-info ul h4 span{max-width:100% !important;}
     .p102-news-info-more{max-width:100% !important;box-sizing:border-box !important;}
     .p102-news-case-con .tempWrap{max-width:100% !important;box-sizing:border-box !important;}
@@ -498,24 +569,19 @@ img { height: auto; }
     .p102-news-case-prev:before, .p102-news-case-next:after{max-width:100% !important;}
     .p102-news-case-list dl{max-width:100% !important;box-sizing:border-box !important;}
     .p102-news-case-list dd{max-width:305px !important;box-sizing:border-box !important;}
-    .p102-news-case-list dd h4 a{height:auto !important;max-height:none !important;overflow:visible !important;}
     .p102-news-case-details a:before{left:0 !important;}
     .p102-news-case-details a:after{left:0 !important;}
     .p102-news-answer-con{box-sizing:border-box !important;}
     .p102-news-answer-con h4:before{max-width:100% !important;left:0 !important;}
-    .p102-news-answer-con h4 a{height:auto !important;max-height:none !important;overflow:visible !important;}
     .p102-news-answer-con h4 span{max-width:100% !important;}
     .p102-news-answer li{max-width:100% !important;box-sizing:border-box !important;}
-    .p102-news-answer li h4 a{height:auto !important;max-height:none !important;overflow:visible !important;}
     .p102-info-items-img{max-width:100% !important;box-sizing:border-box !important;}
     .p102-info-items-text{max-width:100% !important;box-sizing:border-box !important;}
     .p102-info-items-text h4{box-sizing:border-box !important;}
     .p102-info-items-text h4 em{max-width:100% !important;}
-    .p102-info-items-text h4 a{height:auto !important;max-height:none !important;overflow:visible !important;}
     .p102-info-1{max-width:100% !important;box-sizing:border-box !important;}
     .p102-info-list dl{box-sizing:border-box !important;}
     .p102-info-list dt{max-width:268px !important;box-sizing:border-box !important;}
-    .p102-info-list dd h4 a{height:auto !important;max-height:none !important;overflow:visible !important;}
     .p102-info-list-more a:before{left:0 !important;}
     .p102-info-list-more a:after{left:0 !important;}
     .p102-info-fdh-1-nav-one h3 a, .p102-info-fdh-1-nav-one li a{box-sizing:border-box !important;}
@@ -524,12 +590,11 @@ img { height: auto; }
     .p102-fdh-3 li.sidenavcur a:before, .p102-fdh-3 li:hover a:before{max-width:100% !important;}
     .p102-fdh-3 li.sidenavcur a:after, .p102-fdh-3 li:hover a:after{max-width:100% !important;}
     .k12-gl-gslb-3nf1-1-01-left dt{box-sizing:border-box !important;}
-    .k12-gl-gslb-3nf1-1-01-left dd h4{height:auto !important;max-height:none !important;overflow:visible !important;}
     .content{max-width:100% !important;box-sizing:border-box !important;}
     .p4-order-form-1 .p4-titlel-1{max-width:100% !important;box-sizing:border-box !important;}
     .p4-order-form-1-con li p{box-sizing:border-box !important;}
     .timenum{box-sizing:border-box !important;}
-    .p4-order-form-1-con label{max-width:100% !important;box-sizing:border-box !important;height:auto !important;max-height:none !important;overflow:visible !important;}
+    .p4-order-form-1-con label{max-width:100% !important;box-sizing:border-box !important;}
     #code_gg{box-sizing:border-box !important;}
     .p4-order-form-1-con .inputs, .p4-order-form-1-con li select{box-sizing:border-box !important;}
     .p4-order-form-1-t1 textarea{box-sizing:border-box !important;}
@@ -545,30 +610,23 @@ img { height: auto; }
     .p102-proShow-1-tel p em{box-sizing:border-box !important;}
     .p14-prodcontent-1-tit span{box-sizing:border-box !important;}
     .p14-product-2-list dd{box-sizing:border-box !important;}
-    .p14-product-2-list h4{height:auto !important;max-height:none !important;overflow:visible !important;}
     .p103-fdh-1-nav-one{box-sizing:border-box !important;}
     .p103-fdh-1-nav-one h3 i{max-width:100% !important;right:0 !important;}
     .p103-fdh-1-nav-one h3 i:before{max-width:100% !important;}
     .p103-fdh-1-nav-one h3 i:after{max-width:100% !important;}
-    .p103-fdh-1-nav-one h3 a{height:auto !important;max-height:none !important;overflow:visible !important;}
-    .p103-fdh-1-nav-one dt a{height:auto !important;max-height:none !important;overflow:visible !important;box-sizing:border-box !important;}
+    .p103-fdh-1-nav-one dt a{box-sizing:border-box !important;}
     .p103-fdh-1-nav-one h3.sidenavcur:before, .p103-fdh-1-nav-one h3:hover:before{max-width:100% !important;left:0 !important;}
     .p102-pro-related{box-sizing:border-box !important;}
     .p102-pro-related-title:before{max-width:100% !important;}
     .p102-pro-related-title a{max-width:100% !important;}
     .leftnav-z1-desc{max-height:none !important;}
     .leftnav-z1-desc dt b span{box-sizing:border-box !important;}
-    .leftnav-z1-desc dd h4{height:auto !important;max-height:none !important;overflow:visible !important;}
-    .leftnav-z1-desc dd div{height:auto !important;max-height:none !important;overflow:visible !important;}
     .leftnav-z1-list dd{box-sizing:border-box !important;}
-    .leftnav-z1-list dd h4{height:auto !important;max-height:none !important;overflow:visible !important;}
-    .leftnav-z1-list h4 a{height:auto !important;max-height:none !important;overflow:visible !important;}
-    .leftnav-z1-list-desc{height:auto !important;max-height:none !important;overflow:visible !important;}
     .leftnav-z1-list-deta{max-width:100% !important;box-sizing:border-box !important;}
     .p103-related-info-tit{box-sizing:border-box !important;}
     .p103-related-info-tit:before{max-width:100% !important;}
     .p103-related-info-left{max-width:100% !important;box-sizing:border-box !important;}
-    .p103-related-info-left dt h4{max-width:100% !important;box-sizing:border-box !important;height:auto !important;max-height:none !important;overflow:visible !important;}
+    .p103-related-info-left dt h4{max-width:100% !important;box-sizing:border-box !important;}
     .p103-related-info-left dd{box-sizing:border-box !important;}
     .p103-related-info-left dd span{max-width:100% !important;}
     .p103-related-info-left dd span:after{max-width:100% !important;right:0 !important;}
@@ -576,20 +634,15 @@ img { height: auto; }
     .p103-related-info-right li{box-sizing:border-box !important;}
     .p103-related-info-right li i{max-width:100% !important;}
     .p103-related-info-right li i:after{max-width:100% !important;}
-    .p103-related-info-right li h4 a{height:auto !important;max-height:none !important;overflow:visible !important;}
     .p103-related-info-right li h4 span{max-width:100% !important;}
     .cx-xgcp-3pl-01-tit:after{max-width:100% !important;}
     .cx-xgcp-3pl-01-tit h3 span{box-sizing:border-box !important;}
     .p14-product-2-list{height:auto !important;min-height:0 !important;}
-    .zxxq-01-tit{height:auto !important;max-height:none !important;overflow:visible !important;}
     .zxxq-01-text{box-sizing:border-box !important;}
     .zxxq-01-text-t2{box-sizing:border-box !important;}
     .xgzx-pagin-01 dl{box-sizing:border-box !important;}
-    .xgzx-pagin-01 dd{height:auto !important;max-height:none !important;overflow:visible !important;}
     .xgzx-pagin-01 dd em{box-sizing:border-box !important;}
     .xgzx-01{box-sizing:border-box !important;}
-    .xgzx-01-list li h4{height:auto !important;max-height:none !important;overflow:visible !important;}
-    .p14-pro-1-list dd h4{height:auto !important;max-height:none !important;overflow:visible !important;}
     .guide{max-width:100% !important;box-sizing:border-box !important;}
     .guide dl{height:auto !important;min-height:0 !important;}
     .guide dl dt::before{max-width:100% !important;height:auto !important;min-height:0 !important;left:0 !important;}
@@ -598,7 +651,6 @@ img { height: auto; }
     .g-chara .tit02{height:auto !important;min-height:0 !important;}
     .chara{max-width:100% !important;box-sizing:border-box !important;}
     .chara dl{max-width:331px !important;box-sizing:border-box !important;}
-    .chara dd p{-webkit-line-clamp:unset !important;display:block !important;overflow:visible !important;max-height:none !important;height:auto !important;}
     .products{max-width:100% !important;box-sizing:border-box !important;}
     .pro-nav{max-width:241px !important;box-sizing:border-box !important;}
     .pro-c{max-width:229px !important;box-sizing:border-box !important;}
@@ -624,8 +676,6 @@ img { height: auto; }
     .case-nav span em img{max-width:100% !important;}
     .case-con dt{height:auto !important;min-height:0 !important;overflow:visible !important;}
     .case-con dd{height:auto !important;min-height:0 !important;box-sizing:border-box !important;}
-    .case-con dd h4{height:auto !important;max-height:none !important;overflow:visible !important;}
-    .case-con dd p{height:auto !important;max-height:none !important;overflow:visible !important;-webkit-line-clamp:unset !important;display:block !important;}
     .case-con dd .case-btn{max-width:100% !important;box-sizing:border-box !important;}
     .case-nav li,.case-nav span{max-width:200px !important;box-sizing:border-box !important;}
     .case-con dt,.case-con dd{height:auto !important;min-height:0 !important;}
@@ -648,24 +698,20 @@ img { height: auto; }
     .news1-c h5{box-sizing:border-box !important;}
     .news1-c dl{height:auto !important;min-height:0 !important;}
     .news1-c dt, .news1-c dt img{max-width:100% !important;box-sizing:border-box !important;height:auto !important;min-height:0 !important;overflow:visible !important;}
-    .news1-c dd h4 a{height:auto !important;max-height:none !important;overflow:visible !important;}
     .news2{max-width:100% !important;box-sizing:border-box !important;}
     .news2-c{height:auto !important;min-height:0 !important;overflow:visible !important;}
     .news2-c dt, .news2-c dt img{max-width:242px !important;box-sizing:border-box !important;}
-    .news2-c dd h4{height:auto !important;max-height:none !important;overflow:visible !important;}
-    .news2-c dd p{height:auto !important;max-height:none !important;overflow:visible !important;-webkit-line-clamp:unset !important;display:block !important;}
     .news3{height:auto !important;min-height:0 !important;}
     .news-tit{max-width:100% !important;box-sizing:border-box !important;}
     .news3-con{height:auto !important;min-height:0 !important;overflow:visible !important;}
     .news3-c li{max-width:100% !important;box-sizing:border-box !important;}
     .news3-c li h4 a{box-sizing:border-box !important;}
-    .news3-c li p{height:auto !important;max-height:none !important;overflow:visible !important;-webkit-line-clamp:unset !important;display:block !important;box-sizing:border-box !important;}
+    .news3-c li p{box-sizing:border-box !important;}
     .news-sec{box-sizing:border-box !important;}
     .news-sec .ipt1{max-width:100% !important;box-sizing:border-box !important;}
     .about dl dt{max-height:none !important;height:auto !important;min-height:0 !important;}
     .about dl dd{max-width:100% !important;box-sizing:border-box !important;}
     .about dl dd h3{max-width:100% !important;box-sizing:border-box !important;}
-    .about dl dd p{-webkit-line-clamp:unset !important;display:block !important;overflow:visible !important;max-height:none !important;height:auto !important;}
     .show-tit{max-width:100% !important;box-sizing:border-box !important;}
     .show-tit a{max-width:100% !important;box-sizing:border-box !important;}
     .show-tit a::after{max-width:100% !important;}
@@ -673,7 +719,6 @@ img { height: auto; }
     .show{max-width:100% !important;box-sizing:border-box !important;}
     .show-bd{max-width:100% !important;box-sizing:border-box !important;}
     .show li{max-width:334px !important;box-sizing:border-box !important;}
-    .show li em{height:auto !important;max-height:none !important;overflow:visible !important;}
     .link{max-width:100% !important;box-sizing:border-box !important;}
     .partner,.show,.show-bd,.link{max-width:100% !important;box-sizing:border-box !important;}
     .blk-main{max-width:100% !important;box-sizing:border-box !important;}
@@ -689,7 +734,6 @@ img { height: auto; }
     .ptesk tbody tr td{box-sizing:border-box !important;}
     .adv dl dd{height:auto !important;min-height:0 !important;box-sizing:border-box !important;}
     .adv dl dd h3{box-sizing:border-box !important;}
-    .adv dl dd h3 span{height:auto !important;max-height:none !important;overflow:visible !important;}
     .adv dl dd i{box-sizing:border-box !important;}
     .adv dl dd p{box-sizing:border-box !important;}
     .kf{height:auto !important;min-height:0 !important;}
@@ -1293,3 +1337,76 @@ img { height: auto; }
     [style*="width: 750px"]{width:auto !important;max-width:100% !important;height:auto !important;}
   }
 /* @@GEN-MOBILE-END@@ */
+
+/* ==========================================================================
+   生成层的例外 —— 必须放在 @@GEN-MOBILE-END@@ 之后
+   （生成层的规则都带 !important，同优先级下后写的才赢）
+   ========================================================================== */
+
+/* 原站靠「父级写死高度」来兜住浮动子元素（.g-super 就是 height:989px）。
+   ≤1199px 这些死高度必须放开，否则窄屏必溢出 —— 但一放开父级就变成 0 高，
+   浮动块直接漏到下一节里去。实测 .super-c dl 的 777x538 大图漏了 538px，
+   压进「案例」标题所在的行，把 h2 的行盒从 1009px 挤到 192px，
+   14 个字被迫折成 4 行，再连环压到下面的行业导航上。
+
+   给这些浮动容器补一个 BFC（flow-root 只兜住浮动，不像 overflow:hidden 会裁切）。
+   只作用于 769~1199px：手机层已经改成单列且验证通过，不去碰；
+   1200px 以上是原始桌面版式，更不碰。 */
+@media screen and (min-width: 769px) and (max-width: 1199px) {
+  .header, .hd-nr, .menu > ul, .search-con,
+  .guide dl, .chara, .products, .pro2 > ul,
+  .super-nav > ul, .super-c dl, .jx > ul,
+  .case-nav > ul, .proc > ul,
+  .news3, .news-sec, .news2-c dl, .about dl dd,
+  .ft-contact > ul {
+    display: flow-root !important;
+  }
+}
+
+/* 推荐产品轮播的标题条定高，必须写在生成块之后才压得住：
+   生成层在 <=1199px 用 height:auto!important / line-height:1.75!important
+   把写死高度全放开了（手机端必须放开），同优先级下后写的才赢。
+   手机端卡片是整屏宽、标题一行就够，不撑两行，所以只管 769px 以上。 */
+@media screen and (min-width: 769px) {
+  .cx-xgcp-3pl-01-list h4 {
+    height: 70px !important;
+    line-height: 35px !important;
+  }
+  /* 轨道同样要钉住：放成 auto 会把 float 换行后本该藏起来的那排克隆卡片露出来，
+     露出来的克隆卡片正好压在真卡片上，就是 1024px 下测到的那几处叠字。 */
+  .cx-xgcp-3pl-01-list .tempWrap > .p14-product-2-list {
+    height: 256px !important;
+    min-height: 0 !important;
+  }
+}
+
+/* ---------- 平板档（769~1199px）剩余的两处 ---------- */
+@media screen and (min-width: 769px) and (max-width: 1199px) {
+  /* 案例卡片的图框原本是 height:313px 定死的，平板档放开后由图片自身高度决定，
+     几张缺图的占位图高度不一样，同排卡片差 63px。按桌面的 466x313 定比例。 */
+  .case-con dt {
+    height: auto;
+    aspect-ratio: 466 / 313;
+    overflow: hidden;
+  }
+  .case-con dt img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* 产品详情右侧的「在线咨询 + 服务热线」是绝对定位、height:50px 写死的一行。
+     平板档容器只剩 379px，两个浮动块挤不下就换行，第二行掉出 50px 的盒子外面。
+     容器按内容长高；「在线咨询」这四个字是按钮标签，本来就不该换行 ——
+     它的盒子只有 98px 宽、左边还有 58px 的图标位，一换行第二行正好压在电话号码上。 */
+  .p102-proShow-1-tel { height: auto !important; }
+  .p102-proShow-1-tel a { white-space: nowrap !important; }
+
+  /* 首页工艺流程：说明文字一行 24px、两行 48px，同排卡片就差 24px。
+     给它留够两行的位置（用 min-height，万一有三行也不会被裁）。 */
+  .proc ul li p { min-height: 48px; }
+
+  /* 资讯列表：标题 a 是写死的 400px 宽 + 省略号，日期 span 是 right:0 绝对定位。
+     桌面容器够宽，两者不碰；平板档容器变窄，日期跟着往左走，
+     400px 的标题就压到日期上了。把标题宽度改成「减掉日期那一块」。 */
+  .p102-news-1-list dl dd h4 a {
+    width: auto !important;
+    max-width: calc(100% - 100px) !important;
+  }
+}
