@@ -321,7 +321,7 @@ a[data-stub] {
     width: auto !important; max-width: 100% !important; float: none !important;
     height: auto !important;
   }
-  .keywords a, .sea a { display: inline-block !important; margin: 0 10px 6px 0 !important; }
+  .sea a { display: inline-block !important; margin: 0 10px 6px 0 !important; }
   /* 带左右内边距的行内链接换行时，两行的 padding 盒会在垂直方向叠在一起。
      改成 inline-block 后各自占据完整行盒，不再叠字。 */
   .news-sec span a, .news-sec a { display: inline-block !important;
@@ -1444,5 +1444,49 @@ img { height: auto; }
   .p102-news-1-list dl dd h4 a {
     width: auto !important;
     max-width: calc(100% - 100px) !important;
+  }
+}
+
+/* ---------- 热门关键词：改成标签云 ---------- */
+/* 原样式是给桌面那条 81px 高的横条写的：每个 a 带 padding-right:30px 撑开间距，
+   .keywords 自身零内边距。手机上这套全塌了 ——
+   30px 的右内边距在链接盒子「里面」，再叠上外边距，视觉间距忽宽忽窄；
+   第二行又从 x=0 开始，直接顶着屏幕边。
+
+   改成标签云：容器 flex 换行用 gap 统一间距，标题独占一行，
+   每个词做成胶囊（左右内边距对称、有描边），点击区域也从「一行字」
+   变成一个完整的按钮，手指点得中。 */
+@media screen and (max-width: 768px) {
+  .search .search-con { padding: 0 16px 12px !important; box-sizing: border-box !important; }
+
+  .search-con .keywords {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: 8px !important;
+    padding: 12px 0 4px !important;
+    margin: 0 !important;
+    line-height: 1.4 !important;
+  }
+  /* 「热门关键字：」独占一行，后面的词才好对齐 */
+  .search-con .keywords b {
+    flex: 0 0 100% !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 14px !important;
+    line-height: 1.4 !important;
+    color: #333 !important;
+  }
+  .search-con .keywords a {
+    margin: 0 !important;
+    padding: 6px 12px !important;
+    font-size: 13px !important;
+    line-height: 1.4 !important;
+    color: #555 !important;
+    background: #fff !important;
+    border: 1px solid #e3e6ea !important;
+    border-radius: 999px !important;
+    white-space: nowrap !important;
   }
 }
