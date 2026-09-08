@@ -354,34 +354,6 @@ a[data-stub] {
   /* 正文最小字号 13px，低于这个手机上判为「文字过小」 */
   .zxxq-01-sour, .zxxq-01-sour span, .zxxq-01-sour a { font-size: 13px !important; }
 
-  /* ===== 工程师卡片 =====
-     .jx li 的卡片是一整张背景图按 background-size:100% 100% 拉伸铺满的，
-     图上那条蓝色带的位置是按桌面端 583px 固定高度算好的。
-     手机上卡片改成内容自适应高度后，蓝带就和职位文字错开了 ——
-     而职位（.jx li i）是白字、专门配那条蓝带的，落到浅色底上等于消失。
-     背景图没法跟着内容高度自适应，这里改用 CSS 画卡片，
-     职位做成蓝底胶囊，保留原来的视觉语言。全站只有这一处是这个模式。 */
-  .jx li {
-    background-image: none !important;
-    background-color: #fff !important;
-    border: 1px solid #e6e9ed !important;
-    border-radius: 10px !important;
-    text-align: center !important;
-    padding-bottom: 10px !important;
-    margin-bottom: 16px !important;
-    overflow: hidden !important;
-  }
-  .jx li i {
-    display: inline-block !important;
-    background: #284bd4 !important;
-    color: #fff !important;
-    padding: 3px 18px !important;
-    border-radius: 14px !important;
-    margin: 2px auto 12px !important;
-    font-style: normal !important;
-  }
-  .jx li p, .jx li em { text-align: left !important; }
-  .jx li img { padding: 18px 18px 4px !important; }
 }
 
 /* ---------- 手机端补丁 2 ---------- */
@@ -421,8 +393,9 @@ a[data-stub] {
 /* SEO 那轮给全站图片补了 width/height 属性来消除 CLS。副作用是：
    当 CSS 只设了宽度、没设高度时，height 属性会作为「表现性提示」生效，
    把图片撑成属性里的原始高度而不是按比例缩放。
-   典型受害者是 .jx li img —— CSS 写 width:224px，height 属性是 379，
-   结果图片高 379px，把固定 583px 高的工程师卡片撑破，简介压到下一节标题上。
+   （最早是首页「1v1服务」的工程师卡片暴露出来的：CSS 写 width:224px、
+   height 属性是 379，图片被撑到 379px 高，把定高 583px 的卡片撑破。
+   那一块后来整块删掉了，但同样的组合在别处还有，规则要留着。）
 
    这条规则不加 !important，也只用 img 这一个标签选择器（优先级 0,0,1）：
      · 高于 height 属性的表现性提示 -> 高度回到按比例计算
@@ -510,7 +483,7 @@ img { height: auto; }
 /* 由 gen-mobile-css.py 从 vendor 样式表 + 201 个页面的页内 <style> + 内联宽度反推生成。
    1200px 及以上完全不受影响 —— 桌面版式一像素未动。 */
 
-  /* 平板/小笔记本（<=1199px）：只做防溢出与放出被裁正文，保留多栏布局。290 条 */
+  /* 平板/小笔记本（<=1199px）：只做防溢出与放出被裁正文，保留多栏布局。285 条 */
   @media screen and (max-width: 1199px) {
     .header{max-width:100% !important;box-sizing:border-box !important;}
     .hd-tel{box-sizing:border-box !important;}
@@ -525,11 +498,6 @@ img { height: auto; }
     .inp01{max-width:100% !important;box-sizing:border-box !important;}
     .pro-ad-pic .slick-arrow{max-width:100% !important;}
     .pro-ad-pic .slick-dots{max-width:100% !important;}
-    .jx{height:auto !important;min-height:0 !important;}
-    .jx li{height:auto !important;min-height:0 !important;}
-    .jx li img{max-width:224px !important;box-sizing:border-box !important;}
-    .jx li p{max-width:100% !important;box-sizing:border-box !important;}
-    .jx li em{max-width:100% !important;box-sizing:border-box !important;}
     .footers{max-width:100% !important;box-sizing:border-box !important;}
     .ft-con{height:auto !important;min-height:0 !important;}
     .ft-beian{max-width:100% !important;box-sizing:border-box !important;}
@@ -804,7 +772,7 @@ img { height: auto; }
     .geo-doc .note{box-sizing:border-box !important;}
   }
 
-  /* 手机（<=768px）：完整降级，分栏改单列。529 条 */
+  /* 手机（<=768px）：完整降级，分栏改单列。522 条 */
   @media screen and (max-width: 768px) {
     .header{max-width:100% !important;box-sizing:border-box !important;width:100% !important;}
     .twz{height:auto !important;min-height:0 !important;}
@@ -849,13 +817,6 @@ img { height: auto; }
     .inp02{height:auto !important;min-height:0 !important;}
     .pro-ad-pic .slick-arrow{max-width:100% !important;height:auto !important;min-height:0 !important;}
     .pro-ad-pic .slick-dots{max-width:100% !important;}
-    .jx{height:auto !important;min-height:0 !important;}
-    .jx h3{height:auto !important;min-height:0 !important;line-height:1.75 !important;}
-    .jx li{height:auto !important;min-height:0 !important;float:none !important;width:100% !important;max-width:100% !important;margin-left:0 !important;margin-right:0 !important;}
-    .jx li img{max-width:100% !important;box-sizing:border-box !important;width:100% !important;}
-    .jx li b{height:auto !important;min-height:0 !important;}
-    .jx li p{max-width:100% !important;box-sizing:border-box !important;width:100% !important;}
-    .jx li em{max-width:100% !important;box-sizing:border-box !important;width:100% !important;}
     .footers{max-width:100% !important;box-sizing:border-box !important;width:100% !important;}
     .ft-nav{height:auto !important;min-height:0 !important;}
     .ft-nav a{height:auto !important;min-height:0 !important;float:none !important;display:inline-block !important;vertical-align:top !important;}
@@ -1355,7 +1316,7 @@ img { height: auto; }
 @media screen and (min-width: 769px) and (max-width: 1199px) {
   .header, .hd-nr, .menu > ul, .search-con,
   .guide dl, .chara, .products, .pro2 > ul,
-  .super-nav > ul, .super-c dl, .jx > ul,
+  .super-nav > ul, .super-c dl,
   .case-nav > ul, .proc > ul,
   .news3, .news-sec, .news2-c dl, .about dl dd,
   .ft-contact > ul {
