@@ -157,7 +157,10 @@ a[data-stub] {
   .hd-txt b { font-size: 16px !important; display: block !important; color: #7ea6ff !important; }
   .hd-tel { float: none !important; margin: 6px 0 0 !important; height: auto !important;
             background-position: left 4px !important; }
-  .hd-tel b { font-size: 20px !important; }
+  .hd-tel b { font-size: 20px !important; color: #7ea6ff !important; }
+  /* 页眉底色是深色，但有 2 个页面的模板 CSS 没定义 .hd-tel 的颜色，
+     文字会落回默认黑色，在深底上等于看不见。这里统一兜住。 */
+  .hd-tel, .hd-tel span { color: #cfd3da !important; }
 
   /* ===== 导航 = 汉堡菜单 + 侧边抽屉 ===== */
   /* 抽屉用 transform 移出屏幕，链接始终留在 DOM 里，爬虫抓得到 */
@@ -350,6 +353,35 @@ a[data-stub] {
 
   /* 正文最小字号 13px，低于这个手机上判为「文字过小」 */
   .zxxq-01-sour, .zxxq-01-sour span, .zxxq-01-sour a { font-size: 13px !important; }
+
+  /* ===== 工程师卡片 =====
+     .jx li 的卡片是一整张背景图按 background-size:100% 100% 拉伸铺满的，
+     图上那条蓝色带的位置是按桌面端 583px 固定高度算好的。
+     手机上卡片改成内容自适应高度后，蓝带就和职位文字错开了 ——
+     而职位（.jx li i）是白字、专门配那条蓝带的，落到浅色底上等于消失。
+     背景图没法跟着内容高度自适应，这里改用 CSS 画卡片，
+     职位做成蓝底胶囊，保留原来的视觉语言。全站只有这一处是这个模式。 */
+  .jx li {
+    background-image: none !important;
+    background-color: #fff !important;
+    border: 1px solid #e6e9ed !important;
+    border-radius: 10px !important;
+    text-align: center !important;
+    padding-bottom: 10px !important;
+    margin-bottom: 16px !important;
+    overflow: hidden !important;
+  }
+  .jx li i {
+    display: inline-block !important;
+    background: #284bd4 !important;
+    color: #fff !important;
+    padding: 3px 18px !important;
+    border-radius: 14px !important;
+    margin: 2px auto 12px !important;
+    font-style: normal !important;
+  }
+  .jx li p, .jx li em { text-align: left !important; }
+  .jx li img { padding: 18px 18px 4px !important; }
 }
 
 /* ---------- 手机端补丁 2 ---------- */
@@ -748,7 +780,7 @@ a[data-stub] {
     .bantit3{position:static !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;width:auto !important;height:auto !important;margin:0 0 10px !important;}
     .bantit3 h3{font-size:19px !important;line-height:1.5 !important;}
     .bantit3 span{font-size:14px !important;}
-    .banner .slick-arrow{max-width:100% !important;height:auto !important;min-height:0 !important;position:static !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;width:auto !important;margin:0 0 10px !important;}
+    .banner .slick-arrow{max-width:100% !important;height:auto !important;min-height:0 !important;}
     .slick-dots{max-width:100% !important;position:static !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;width:auto !important;height:auto !important;margin:0 0 10px !important;}
     .search{height:auto !important;min-height:0 !important;overflow:visible !important;max-height:none !important;}
     .search-con{max-width:100% !important;box-sizing:border-box !important;width:100% !important;}
@@ -758,7 +790,7 @@ a[data-stub] {
     .sea{max-width:100% !important;box-sizing:border-box !important;width:100% !important;height:auto !important;min-height:0 !important;float:none !important;margin-left:0 !important;margin-right:0 !important;}
     .inp01{max-width:100% !important;box-sizing:border-box !important;width:100% !important;height:auto !important;min-height:0 !important;line-height:1.75 !important;float:none !important;margin-left:0 !important;margin-right:0 !important;}
     .inp02{height:auto !important;min-height:0 !important;}
-    .pro-ad-pic .slick-arrow{max-width:100% !important;height:auto !important;min-height:0 !important;position:static !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;width:auto !important;margin:0 0 10px !important;}
+    .pro-ad-pic .slick-arrow{max-width:100% !important;height:auto !important;min-height:0 !important;}
     .pro-ad-pic .slick-dots{max-width:100% !important;position:static !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;width:auto !important;height:auto !important;margin:0 0 10px !important;}
     .jx{height:auto !important;min-height:0 !important;}
     .jx h3{height:auto !important;min-height:0 !important;line-height:1.75 !important;}
@@ -808,7 +840,7 @@ a[data-stub] {
     .p102-news-info dd{max-width:100% !important;box-sizing:border-box !important;width:100% !important;float:none !important;margin-left:0 !important;margin-right:0 !important;}
     .p102-news-info dd i{max-width:100% !important;height:auto !important;min-height:0 !important;position:static !important;left:auto !important;right:0 !important;top:auto !important;bottom:auto !important;width:auto !important;margin:0 0 10px !important;}
     .p102-news-info dd h4{height:auto !important;min-height:0 !important;padding-left:14px !important;box-sizing:border-box !important;}
-    .p102-news-info dd h4 em{max-width:100% !important;height:auto !important;min-height:0 !important;position:static !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;width:auto !important;margin:0 0 10px !important;}
+    .p102-news-info dd h4 em{max-width:100% !important;height:auto !important;min-height:0 !important;}
     .p102-news-info dd h4 a{height:auto !important;min-height:0 !important;overflow:visible !important;max-height:none !important;line-height:1.4 !important;white-space:normal !important;text-overflow:clip !important;}
     .p102-news-info ul:before{max-width:100% !important;}
     .p102-news-info ul li{max-width:100% !important;box-sizing:border-box !important;width:100% !important;float:none !important;margin-left:0 !important;margin-right:0 !important;}
@@ -842,7 +874,7 @@ a[data-stub] {
     .p102-info-items-img{max-width:100% !important;box-sizing:border-box !important;width:100% !important;float:none !important;margin-left:0 !important;margin-right:0 !important;}
     .p102-info-items-text{max-width:100% !important;box-sizing:border-box !important;width:100% !important;float:none !important;margin-left:0 !important;margin-right:0 !important;}
     .p102-info-items-text h4{height:auto !important;min-height:0 !important;padding-left:14px !important;box-sizing:border-box !important;}
-    .p102-info-items-text h4 em{max-width:100% !important;height:auto !important;min-height:0 !important;position:static !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;width:auto !important;margin:0 0 10px !important;}
+    .p102-info-items-text h4 em{max-width:100% !important;height:auto !important;min-height:0 !important;}
     .p102-info-items-text h4 a{height:auto !important;min-height:0 !important;overflow:visible !important;max-height:none !important;line-height:1.4 !important;white-space:normal !important;text-overflow:clip !important;}
     .p102-info-1-more a{height:auto !important;min-height:0 !important;}
     .p102-info-1{max-width:100% !important;box-sizing:border-box !important;width:100% !important;padding-top:28px !important;}
@@ -893,7 +925,7 @@ a[data-stub] {
     .p102-proShow-1-left{float:none !important;width:100% !important;max-width:100% !important;margin-left:0 !important;margin-right:0 !important;}
     .p102-proShow-1-prev, .p102-proShow-1-next{max-width:100% !important;height:auto !important;min-height:0 !important;}
     .p102-proShow-1-prev:before, .p102-proShow-1-next:after{max-width:100% !important;}
-    .p102-proShow-1-size{max-width:100% !important;position:static !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;width:auto !important;height:auto !important;margin:0 0 10px !important;}
+    .p102-proShow-1-size{max-width:100% !important;}
     .p102-proShow-1-right{float:none !important;width:auto !important;max-width:100% !important;margin-left:0 !important;margin-right:0 !important;position:static !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;height:auto !important;margin:0 0 10px !important;}
     .p102-proShow-1-text:after{max-width:100% !important;display:none !important;}
     .p102-proShow-1-text .p102-proShow-1-title{line-height:1.4 !important;}
@@ -946,7 +978,7 @@ a[data-stub] {
     .p103-related-info-left dt h4{max-width:100% !important;box-sizing:border-box !important;width:auto !important;height:auto !important;min-height:0 !important;overflow:visible !important;max-height:none !important;line-height:1.75 !important;position:static !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;margin:0 0 10px !important;white-space:normal !important;text-overflow:clip !important;}
     .p103-related-info-left dd{height:auto !important;min-height:0 !important;box-sizing:border-box !important;}
     .p103-related-info-left dd h4 a{height:auto !important;min-height:0 !important;white-space:normal !important;overflow:visible !important;text-overflow:clip !important;}
-    .p103-related-info-left dd span{max-width:100% !important;height:auto !important;min-height:0 !important;position:static !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;width:auto !important;margin:0 0 10px !important;}
+    .p103-related-info-left dd span{max-width:100% !important;height:auto !important;min-height:0 !important;}
     .p103-related-info-left dd span:after{max-width:100% !important;display:none !important;right:0 !important;}
     .p103-related-info-right{max-width:100% !important;box-sizing:border-box !important;width:100% !important;float:none !important;margin-left:0 !important;margin-right:0 !important;}
     .p103-related-info-right li{box-sizing:border-box !important;}
@@ -1168,7 +1200,7 @@ a[data-stub] {
     .xnznr-page-main a,.xnznr-page-main span{height:auto !important;min-height:0 !important;}
     .Addcontent1 .kpi-item{box-sizing:border-box !important;}
     .Addcontent1 .img-block img{max-height:none !important;}
-    .Addcontent2 ul li .li-icon{max-width:100% !important;height:auto !important;min-height:0 !important;position:static !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;width:auto !important;margin:0 0 10px !important;}
+    .Addcontent2 ul li .li-icon{max-width:100% !important;height:auto !important;min-height:0 !important;}
     .Addcontent2 ul li .li-data{box-sizing:border-box !important;}
     .Addcontent3 dl dd p::before{max-width:100% !important;}
     .prod-card .prod-img{height:auto !important;min-height:0 !important;}
