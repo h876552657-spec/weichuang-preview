@@ -417,6 +417,19 @@ a[data-stub] {
   .super { width: auto !important; max-width: 100% !important; }
 }
 
+/* ---------- 图片高度跟着宽度按比例走 ---------- */
+/* SEO 那轮给全站图片补了 width/height 属性来消除 CLS。副作用是：
+   当 CSS 只设了宽度、没设高度时，height 属性会作为「表现性提示」生效，
+   把图片撑成属性里的原始高度而不是按比例缩放。
+   典型受害者是 .jx li img —— CSS 写 width:224px，height 属性是 379，
+   结果图片高 379px，把固定 583px 高的工程师卡片撑破，简介压到下一节标题上。
+
+   这条规则不加 !important，也只用 img 这一个标签选择器（优先级 0,0,1）：
+     · 高于 height 属性的表现性提示 -> 高度回到按比例计算
+     · 低于任何带 class 的 CSS 高度声明 -> 用固定高度做裁剪的图片不受影响
+       （如 .news1-c dt img{height:381px}） */
+img { height: auto; }
+
 /* @@GEN-MOBILE-START@@  以下由 gen-mobile-css.py 生成，勿手改 */
 /* 由 gen-mobile-css.py 从 vendor 样式表 + 201 个页面的页内 <style> + 内联宽度反推生成。
    1200px 及以上完全不受影响 —— 桌面版式一像素未动。 */
@@ -747,7 +760,7 @@ a[data-stub] {
     .geo-doc .note{box-sizing:border-box !important;}
   }
 
-  /* 手机（<=768px）：完整降级，分栏改单列。530 条 */
+  /* 手机（<=768px）：完整降级，分栏改单列。529 条 */
   @media screen and (max-width: 768px) {
     .header{max-width:100% !important;box-sizing:border-box !important;width:100% !important;}
     .twz{height:auto !important;min-height:0 !important;}
@@ -781,7 +794,7 @@ a[data-stub] {
     .bantit3 h3{font-size:19px !important;line-height:1.5 !important;}
     .bantit3 span{font-size:14px !important;}
     .banner .slick-arrow{max-width:100% !important;height:auto !important;min-height:0 !important;}
-    .slick-dots{max-width:100% !important;position:static !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;width:auto !important;height:auto !important;margin:0 0 10px !important;}
+    .slick-dots{max-width:100% !important;}
     .search{height:auto !important;min-height:0 !important;overflow:visible !important;max-height:none !important;}
     .search-con{max-width:100% !important;box-sizing:border-box !important;width:100% !important;}
     .keywords{max-width:100% !important;box-sizing:border-box !important;width:100% !important;line-height:1.75 !important;float:none !important;margin-left:0 !important;margin-right:0 !important;}
@@ -791,7 +804,7 @@ a[data-stub] {
     .inp01{max-width:100% !important;box-sizing:border-box !important;width:100% !important;height:auto !important;min-height:0 !important;line-height:1.75 !important;float:none !important;margin-left:0 !important;margin-right:0 !important;}
     .inp02{height:auto !important;min-height:0 !important;}
     .pro-ad-pic .slick-arrow{max-width:100% !important;height:auto !important;min-height:0 !important;}
-    .pro-ad-pic .slick-dots{max-width:100% !important;position:static !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;width:auto !important;height:auto !important;margin:0 0 10px !important;}
+    .pro-ad-pic .slick-dots{max-width:100% !important;}
     .jx{height:auto !important;min-height:0 !important;}
     .jx h3{height:auto !important;min-height:0 !important;line-height:1.75 !important;}
     .jx li{height:auto !important;min-height:0 !important;float:none !important;width:100% !important;max-width:100% !important;margin-left:0 !important;margin-right:0 !important;}
@@ -840,7 +853,7 @@ a[data-stub] {
     .p102-news-info dd{max-width:100% !important;box-sizing:border-box !important;width:100% !important;float:none !important;margin-left:0 !important;margin-right:0 !important;}
     .p102-news-info dd i{max-width:100% !important;height:auto !important;min-height:0 !important;position:static !important;left:auto !important;right:0 !important;top:auto !important;bottom:auto !important;width:auto !important;margin:0 0 10px !important;}
     .p102-news-info dd h4{height:auto !important;min-height:0 !important;padding-left:14px !important;box-sizing:border-box !important;}
-    .p102-news-info dd h4 em{max-width:100% !important;height:auto !important;min-height:0 !important;}
+    .p102-news-info dd h4 em{max-width:100% !important;height:auto !important;min-height:0 !important;position:static !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;width:auto !important;margin:0 0 10px !important;}
     .p102-news-info dd h4 a{height:auto !important;min-height:0 !important;overflow:visible !important;max-height:none !important;line-height:1.4 !important;white-space:normal !important;text-overflow:clip !important;}
     .p102-news-info ul:before{max-width:100% !important;}
     .p102-news-info ul li{max-width:100% !important;box-sizing:border-box !important;width:100% !important;float:none !important;margin-left:0 !important;margin-right:0 !important;}
@@ -874,7 +887,7 @@ a[data-stub] {
     .p102-info-items-img{max-width:100% !important;box-sizing:border-box !important;width:100% !important;float:none !important;margin-left:0 !important;margin-right:0 !important;}
     .p102-info-items-text{max-width:100% !important;box-sizing:border-box !important;width:100% !important;float:none !important;margin-left:0 !important;margin-right:0 !important;}
     .p102-info-items-text h4{height:auto !important;min-height:0 !important;padding-left:14px !important;box-sizing:border-box !important;}
-    .p102-info-items-text h4 em{max-width:100% !important;height:auto !important;min-height:0 !important;}
+    .p102-info-items-text h4 em{max-width:100% !important;height:auto !important;min-height:0 !important;position:static !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;width:auto !important;margin:0 0 10px !important;}
     .p102-info-items-text h4 a{height:auto !important;min-height:0 !important;overflow:visible !important;max-height:none !important;line-height:1.4 !important;white-space:normal !important;text-overflow:clip !important;}
     .p102-info-1-more a{height:auto !important;min-height:0 !important;}
     .p102-info-1{max-width:100% !important;box-sizing:border-box !important;width:100% !important;padding-top:28px !important;}
@@ -978,7 +991,7 @@ a[data-stub] {
     .p103-related-info-left dt h4{max-width:100% !important;box-sizing:border-box !important;width:auto !important;height:auto !important;min-height:0 !important;overflow:visible !important;max-height:none !important;line-height:1.75 !important;position:static !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;margin:0 0 10px !important;white-space:normal !important;text-overflow:clip !important;}
     .p103-related-info-left dd{height:auto !important;min-height:0 !important;box-sizing:border-box !important;}
     .p103-related-info-left dd h4 a{height:auto !important;min-height:0 !important;white-space:normal !important;overflow:visible !important;text-overflow:clip !important;}
-    .p103-related-info-left dd span{max-width:100% !important;height:auto !important;min-height:0 !important;}
+    .p103-related-info-left dd span{max-width:100% !important;height:auto !important;min-height:0 !important;position:static !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;width:auto !important;margin:0 0 10px !important;}
     .p103-related-info-left dd span:after{max-width:100% !important;display:none !important;right:0 !important;}
     .p103-related-info-right{max-width:100% !important;box-sizing:border-box !important;width:100% !important;float:none !important;margin-left:0 !important;margin-right:0 !important;}
     .p103-related-info-right li{box-sizing:border-box !important;}
@@ -1200,7 +1213,7 @@ a[data-stub] {
     .xnznr-page-main a,.xnznr-page-main span{height:auto !important;min-height:0 !important;}
     .Addcontent1 .kpi-item{box-sizing:border-box !important;}
     .Addcontent1 .img-block img{max-height:none !important;}
-    .Addcontent2 ul li .li-icon{max-width:100% !important;height:auto !important;min-height:0 !important;}
+    .Addcontent2 ul li .li-icon{max-width:100% !important;height:auto !important;min-height:0 !important;position:static !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;width:auto !important;margin:0 0 10px !important;}
     .Addcontent2 ul li .li-data{box-sizing:border-box !important;}
     .Addcontent3 dl dd p::before{max-width:100% !important;}
     .prod-card .prod-img{height:auto !important;min-height:0 !important;}
@@ -1256,7 +1269,6 @@ a[data-stub] {
     .client-logo{height:auto !important;min-height:0 !important;}
     .client-logo img{box-sizing:border-box !important;}
     .why-card{box-sizing:border-box !important;}
-    .why-card .why-num{position:static !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;width:auto !important;height:auto !important;margin:0 0 10px !important;}
     .why-card .data-tag{box-sizing:border-box !important;}
     .cap-table th{box-sizing:border-box !important;}
     .cap-table td{box-sizing:border-box !important;}
