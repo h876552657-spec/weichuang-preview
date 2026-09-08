@@ -1566,6 +1566,79 @@ img { height: auto; }
   .p102-fdh-3 > ul > .clear,
   .strength dd > ul > .clear { display: none !important; }
 
+  /* ---- 内页顶部「热搜关键词」（298 个页面）---- */
+  /* 和首页那块 .keywords 一个毛病：桌面的行高原样留着，一行字撑出 80px 高，
+     4 个词占掉 160px；间距靠 margin-right:15px，词长不一就参差。
+     统一成标签云。 */
+  .p101-search-1 .blk-main > p {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: 8px !important;
+    margin: 0 !important;
+    padding: 12px 0 4px !important;
+    line-height: 1.4 !important;
+  }
+  .p101-search-1 .blk-main > p b {
+    flex: 0 0 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 14px !important;
+    line-height: 1.4 !important;
+  }
+  .p101-search-1 .blk-main > p a {
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 6px 12px !important;
+    font-size: 13px !important;
+    line-height: 1.4 !important;
+    background: #fff !important;
+    border: 1px solid #e3e6ea !important;
+    border-radius: 999px !important;
+    white-space: nowrap !important;
+  }
+
+  /* ---- 页脚导航 ---- */
+  /* .ft-nav a 是 height:85px; line-height:85px; padding:0 26px; float:left ——
+     桌面那条横导航。手机上浮动解除了、高度没解除，10 个链接排成 5 行占 425px，
+     而且 26px 的左右内边距在盒子里面，视觉间距忽宽忽窄。
+     改成自动换行 + gap 统一间距，行高回到正常值。 */
+  .ft-nav {
+    height: auto !important;
+    min-height: 0 !important;
+    /* .ft-nav 是 footer 的直接子元素，本身没有左右内边距，不加就贴屏幕边 */
+    padding: 6px 16px 10px !important;
+    box-sizing: border-box !important;
+  }
+  /* 结构是 .ft-nav > .footers > a，flex 要加在 .footers 上。
+     加在 .ft-nav 上的话它只有一个子元素，链接仍是行内排布，
+     间距变成空格字符的宽度（14px 字号下约 4px），挤成一团。
+     .footers 这个类在页脚联系区也用到，所以必须限定成 .ft-nav 的直接子元素。 */
+  .ft-nav > .footers {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    column-gap: 20px !important;
+    row-gap: 2px !important;
+    width: auto !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    overflow: visible !important;
+  }
+  .ft-nav a {
+    height: auto !important;
+    min-height: 0 !important;
+    line-height: 1.4 !important;
+    padding: 8px 0 !important;
+    margin: 0 !important;
+    float: none !important;
+    font-size: 14px !important;
+  }
+
   /* ---- 首页相册切换条（生产车间/检测设备/荣誉证书/企业风采）---- */
   /* 桌面上是一条 840x64 的圆角横条，四个标签横排。手机上出了三个问题：
      1. 容器背景 showtbg.jpg 是 5x64 的渐变条，靠 repeat-x 横向平铺。
